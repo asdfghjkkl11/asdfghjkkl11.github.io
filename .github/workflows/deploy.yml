@@ -23,9 +23,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Install, build, upload
         uses: withastro/action@v3
-        # 저장소 루트가 아니라 하위 폴더일 경우:
-        # with:
-        #   path: .
+        with:
+          node-version: 22
+          # 저장소 루트가 아니라 하위 폴더일 경우 path 지정:
+          # path: .
 
   deploy:
     needs: build
