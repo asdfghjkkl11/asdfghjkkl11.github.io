@@ -12,8 +12,8 @@ export const profile = {
   email: 'asdfghjkkl11@naver.com',
   github: 'https://github.com/asdfghjkkl11',
   githubHandle: 'asdfghjkkl11',
-  domain: 'https://asdfghjkkl.com',
-  domainLabel: 'asdfghjkkl.com',
+  domain: 'https://asdfghjkkl11.com',
+  domainLabel: 'asdfghjkkl11.com',
 };
 
 export type Project = {

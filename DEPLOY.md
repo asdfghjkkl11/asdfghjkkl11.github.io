@@ -15,7 +15,7 @@ npm run preview   # 빌드 결과 미리보기
 
 ---
 
-## 1. 포트폴리오 사이트 배포 (GitHub Pages + asdfghjkkl.com)
+## 1. 포트폴리오 사이트 배포 (GitHub Pages + asdfghjkkl11.com)
 
 ### 1-1. 저장소 만들고 푸시
 ```powershell
@@ -34,9 +34,9 @@ git push -u origin main
 - **Source** 를 **GitHub Actions** 로 설정
 - `.github/workflows/deploy.yml` 가 자동으로 빌드·배포합니다 (push 시마다)
 
-### 1-3. 커스텀 도메인 연결 (asdfghjkkl.com)
-- `public/CNAME` 에 이미 `asdfghjkkl.com` 이 들어 있습니다.
-- GitHub repo → **Settings → Pages → Custom domain** 에 `asdfghjkkl.com` 입력 → Save
+### 1-3. 커스텀 도메인 연결 (asdfghjkkl11.com)
+- `public/CNAME` 에 이미 `asdfghjkkl11.com` 이 들어 있습니다.
+- GitHub repo → **Settings → Pages → Custom domain** 에 `asdfghjkkl11.com` 입력 → Save
 - **도메인 등록업체 DNS** 에 아래 레코드 추가:
 
   | 타입 | 호스트 | 값 |
@@ -48,7 +48,7 @@ git push -u origin main
   | CNAME | www | asdfghjkkl11.github.io |
 
 - DNS 전파 후 (수 분~수 시간) **Enforce HTTPS** 체크
-- 결과: `https://asdfghjkkl.com` 와 `https://asdfghjkkl11.github.io/portfolio` 양쪽에서 접속 가능
+- 결과: `https://asdfghjkkl11.com` 와 `https://asdfghjkkl11.github.io/portfolio` 양쪽에서 접속 가능
 
 > ⚠️ 커스텀 도메인을 쓰면 `astro.config.mjs` 의 `site` 가 루트(`/`)이므로 그대로 두면 됩니다.
 > 만약 도메인 없이 `github.io/portfolio` 로만 쓸 경우 `base: '/portfolio'` 설정이 추가로 필요합니다.
@@ -78,7 +78,7 @@ git push -u origin main
 ## 체크리스트
 - [ ] portfolio repo 생성 & push
 - [ ] Settings → Pages → Source = GitHub Actions
-- [ ] Custom domain = asdfghjkkl.com 입력
+- [ ] Custom domain = asdfghjkkl11.com 입력
 - [ ] DNS A/CNAME 레코드 등록
 - [ ] Enforce HTTPS
 - [ ] asdfghjkkl11/asdfghjkkl11 repo 생성 & README push

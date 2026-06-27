@@ -2,7 +2,7 @@
 
 Astro로 만든 개인 포트폴리오 사이트. Swiss 미니멀 스타일의 단일 페이지로, 프로젝트·경력·기술 스택·연락처를 보여줍니다.
 
-- **라이브:** https://asdfghjkkl.com
+- **라이브:** https://asdfghjkkl11.com
 - **스택:** Astro 6 · 정적 사이트(SSG) · 의존성 없는 순수 CSS
 
 ## ✏️ 내용 수정
@@ -21,7 +21,7 @@ export const stack = [ /* 기술 스택 칩 */ ];
 ```text
 /
 ├── public/                # 정적 자산 (그대로 배포)
-│   ├── CNAME              # 커스텀 도메인 (asdfghjkkl.com)
+│   ├── CNAME              # 커스텀 도메인 (asdfghjkkl11.com)
 │   ├── favicon.svg / .ico
 │   ├── og.png             # 소셜 공유 미리보기 이미지
 │   └── robots.txt
@@ -51,6 +51,6 @@ export const stack = [ /* 기술 스택 칩 */ ];
 
 ## 🚀 배포
 
-`main` 브랜치에 push하면 `.github/workflows/deploy.yml` 이 자동으로 빌드해 **GitHub Pages** 로 배포합니다. 커스텀 도메인은 `public/CNAME` 으로 `asdfghjkkl.com` 에 연결되어 있습니다.
+`main` 브랜치에 push하면 `.github/workflows/deploy.yml` 이 자동으로 빌드해 **GitHub Pages** 로 배포합니다. 커스텀 도메인은 `public/CNAME` 으로 `asdfghjkkl11.com` 에 연결되어 있습니다.
 
 도메인 연결, DNS 레코드, GitHub 프로필 README 등 자세한 절차는 [`DEPLOY.md`](./DEPLOY.md) 를 참고하세요.
