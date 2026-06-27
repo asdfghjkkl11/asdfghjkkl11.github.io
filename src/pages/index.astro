@@ -29,6 +29,14 @@ import {
         <h1>{profile.heroLine1}<br />{profile.heroLine2}</h1>
       </div>
       <p class="intro">{profile.intro}</p>
+      <button
+        type="button"
+        id="download-pdf"
+        class="pdf-btn"
+        aria-label="포트폴리오를 PDF로 다운로드"
+      >
+        PDF 다운로드 ↓
+      </button>
     </header>
 
     <!-- Work -->
@@ -116,6 +124,106 @@ import {
     </footer>
   </div>
 </Base>
+
+<script>
+  const MARGIN_MM = 12;
+  const HIDE_IN_EXPORT = 'nav, .skip-link, #download-pdf';
+
+  const btn = document.getElementById('download-pdf') as HTMLButtonElement | null;
+
+  btn?.addEventListener('click', async () => {
+    const target = document.querySelector('.wrap') as HTMLElement | null;
+    if (!target) return;
+
+    const label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '생성 중…';
+
+    try {
+      // Ensure web fonts are ready so the capture isn't rendered with fallback fonts.
+      if (document.fonts?.ready) await document.fonts.ready;
+
+      // Heavy libraries — load on demand so they stay out of the initial bundle.
+      const html2canvas = (await import('html2canvas')).default;
+      const { jsPDF } = await import('jspdf');
+
+      // Fraction (0..1) down the captured content where the Experience section
+      // starts — measured in the clone, after chrome is hidden, so the forced
+      // break lands exactly between tag 01 (Work) and tag 02 (Experience).
+      let breakRatio = 0;
+
+      // Capture the whole page as one canvas; hide interactive chrome in the
+      // clone only so the live page never flickers.
+      const canvas = await html2canvas(target, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        onclone: (doc: Document) => {
+          doc
+            .querySelectorAll<HTMLElement>(HIDE_IN_EXPORT)
+            .forEach((node) => (node.style.display = 'none'));
+
+          const wrapEl = doc.querySelector('.wrap') as HTMLElement | null;
+          const expEl = doc.getElementById('experience');
+          if (wrapEl && expEl) {
+            const w = wrapEl.getBoundingClientRect();
+            const e = expEl.getBoundingClientRect();
+            if (w.height > 0) breakRatio = (e.top - w.top) / w.height;
+          }
+        },
+      });
+
+      const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const contentW = pageW - MARGIN_MM * 2;
+      const contentH = pageH - MARGIN_MM * 2;
+      // Source pixels that fill one page of content at our render width.
+      const pxPerPage = Math.floor((canvas.width * contentH) / contentW);
+
+      // Hard page break between Work (01) and Experience (02); the rest flows
+      // continuously by page height. Each segment starts on a fresh page.
+      const breakPx = Math.round(breakRatio * canvas.height);
+      const segments: Array<[number, number]> = [];
+      let prev = 0;
+      if (breakPx > 0 && breakPx < canvas.height) {
+        segments.push([0, breakPx]);
+        prev = breakPx;
+      }
+      segments.push([prev, canvas.height]);
+
+      let isFirstSlice = true;
+      for (const [segStart, segEnd] of segments) {
+        let offset = segStart;
+        while (offset < segEnd) {
+          const sliceH = Math.min(pxPerPage, segEnd - offset);
+          const slice = document.createElement('canvas');
+          slice.width = canvas.width;
+          slice.height = sliceH;
+          const ctx = slice.getContext('2d');
+          if (ctx) {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, slice.width, slice.height);
+            ctx.drawImage(canvas, 0, offset, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+          }
+          const imgH = (sliceH * contentW) / canvas.width;
+          if (!isFirstSlice) pdf.addPage();
+          pdf.addImage(slice.toDataURL('image/jpeg', 0.98), 'JPEG', MARGIN_MM, MARGIN_MM, contentW, imgH);
+          offset += sliceH;
+          isFirstSlice = false;
+        }
+      }
+
+      pdf.save('Son_Seungbeom_Portfolio.pdf');
+    } catch (err) {
+      console.error('PDF 생성 실패', err);
+      alert('PDF 생성에 실패했습니다. 다시 시도해 주세요.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+  });
+</script>
 
 <style>
   /* Nav */
@@ -311,6 +419,52 @@ import {
     margin-top: 40px;
     color: var(--muted);
     font-size: 12px;
+  }
+
+  /* PDF download button */
+  .pdf-btn {
+    justify-self: start;
+    margin-top: 8px;
+    padding: 11px 20px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: background var(--dur), color var(--dur), opacity var(--dur);
+  }
+  .pdf-btn:hover {
+    background: transparent;
+    color: var(--accent);
+  }
+  .pdf-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .pdf-btn:active {
+    transform: translateY(1px);
+  }
+  .pdf-btn:disabled {
+    opacity: 0.5;
+    cursor: progress;
+  }
+
+  /* Print: drop interactive chrome, keep sections intact */
+  @media print {
+    nav,
+    .skip-link,
+    .pdf-btn {
+      display: none !important;
+    }
+    .section,
+    .exp,
+    .table .item {
+      break-inside: avoid;
+    }
   }
 
   @media (max-width: 720px) {

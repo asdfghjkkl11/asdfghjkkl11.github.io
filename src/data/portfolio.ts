@@ -51,7 +51,7 @@ export const projects: Project[] = [
     desc: '기계식 키보드 입력 테스트 데스크톱 앱 · 입력 시각화',
     stack: 'Electron',
     year: '2026',
-    href: 'https://github.com/asdfghjkkl11/keyboard-tester',
+    href: 'https://drive.google.com/file/d/1uho8wlnmQMpOKCf_ZykaGByoRCn0vGEq/view?usp=sharing',
   },
   {
     name: 'Svelte Image Editor',
