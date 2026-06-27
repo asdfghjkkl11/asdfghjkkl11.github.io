@@ -1,0 +1,334 @@
+---
+import Base from '../layouts/Base.astro';
+import {
+  profile,
+  projects,
+  experiences,
+  stack,
+} from '../data/portfolio';
+---
+
+<Base>
+  <a class="skip-link" href="#work">본문 바로가기</a>
+  <div class="wrap">
+    <!-- Nav -->
+    <nav aria-label="주요 메뉴">
+      <a class="logo" href="#top">{profile.nameKo} — {profile.nameEn}</a>
+      <div class="links">
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#stack">Stack</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <header id="top">
+      <div>
+        <p class="eyebrow">{profile.title}</p>
+        <h1>{profile.heroLine1}<br />{profile.heroLine2}</h1>
+      </div>
+      <p class="intro">{profile.intro}</p>
+    </header>
+
+    <!-- Work -->
+    <section id="work" class="section section-grid">
+      <div class="tag">01 / Work</div>
+      <div>
+        <h2 class="h2">Selected Projects</h2>
+        <div class="table">
+          {
+            projects.map((p) =>
+              p.href ? (
+                <a class="item" href={p.href} target="_blank" rel="noopener">
+                  <span class="name">{p.name}</span>
+                  <span class="desc">{p.desc}</span>
+                  <span class="stack">{p.stack}</span>
+                  <span class="year">{p.year}</span>
+                </a>
+              ) : (
+                <div class="item no-link">
+                  <span class="name">{p.name}</span>
+                  <span class="desc">{p.desc}</span>
+                  <span class="stack">{p.stack}</span>
+                  <span class="year">{p.year}</span>
+                </div>
+              )
+            )
+          }
+        </div>
+        <a class="more" href={profile.github} target="_blank" rel="noopener">
+          전체 저장소 보기 (GitHub) →
+        </a>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="section section-grid">
+      <div class="tag">02 / Experience</div>
+      <div>
+        <h2 class="h2">Career</h2>
+        {
+          experiences.map((e) => (
+            <div class="exp">
+              <div class="when">{e.period}</div>
+              <div>
+                <h3>
+                  {e.company}
+                  {e.note && <span class="note"> · {e.note}</span>}
+                </h3>
+                <div class="role">{e.role}</div>
+                <ul>
+                  {e.points.map((pt) => (
+                    <li>{pt}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Stack -->
+    <section id="stack" class="section section-grid">
+      <div class="tag">03 / Stack</div>
+      <div>
+        <h2 class="h2">Tech Stack</h2>
+        <div class="chips">
+          {stack.map((s) => <span class="chip">{s}</span>)}
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <footer id="contact" class="section section-grid">
+      <div class="tag">04 / Contact</div>
+      <div>
+        <h2 class="h2">함께 일해요</h2>
+        <a class="mail" href={`mailto:${profile.email}`}>{profile.email}</a>
+        <div class="contact-links">
+          <a href={profile.github} target="_blank" rel="noopener">GitHub</a>
+          <a href={profile.domain}>{profile.domainLabel}</a>
+        </div>
+        <p class="copy">© 2026 {profile.nameKo}. Built with Astro.</p>
+      </div>
+    </footer>
+  </div>
+</Base>
+
+<style>
+  /* Nav */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0;
+    font-size: 14px;
+  }
+  nav .logo {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  nav .links a {
+    margin-left: 28px;
+    color: var(--muted);
+    font-weight: 500;
+    transition: color var(--dur);
+  }
+  nav .links a:hover {
+    color: var(--accent);
+  }
+
+  /* Hero */
+  header {
+    padding: 90px 0 70px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: end;
+  }
+  .eyebrow {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+  header h1 {
+    font-weight: 700;
+    font-size: clamp(38px, 6vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  .intro {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 400px;
+  }
+
+  /* Work table */
+  .table .item {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 110px 56px;
+    gap: 30px;
+    align-items: center;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+    transition: opacity var(--dur), padding var(--dur);
+  }
+  .table .item:first-child {
+    border-top: none;
+  }
+  .table:hover .item {
+    opacity: 0.4;
+  }
+  .table:hover .item:hover {
+    opacity: 1;
+  }
+  .table .item:hover {
+    padding-left: 8px;
+  }
+  .table .item.no-link {
+    cursor: default;
+  }
+  .name {
+    font-weight: 600;
+    font-size: 17px;
+  }
+  .desc {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .stack {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .year {
+    text-align: right;
+    color: var(--muted);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  .more {
+    display: inline-block;
+    margin-top: 28px;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .more:hover {
+    text-decoration: underline;
+  }
+
+  /* Experience */
+  .exp {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 30px;
+  }
+  .exp .when {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .exp h3 {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .exp .note {
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 14px;
+  }
+  .exp .role {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .exp ul {
+    list-style: none;
+  }
+  .exp li {
+    color: var(--muted);
+    font-size: 15px;
+    padding: 6px 0 6px 18px;
+    position: relative;
+  }
+  .exp li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--ink);
+  }
+
+  /* Stack */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: flex-start;
+  }
+  .chip {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color var(--dur), color var(--dur);
+  }
+  .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Contact */
+  .mail {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 18px;
+  }
+  .mail:hover {
+    text-decoration: underline;
+  }
+  .contact-links {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .contact-links a {
+    margin-right: 18px;
+    font-weight: 500;
+  }
+  .contact-links a:hover {
+    color: var(--accent);
+  }
+  .copy {
+    margin-top: 40px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 720px) {
+    header {
+      grid-template-columns: 1fr;
+      padding: 56px 0 50px;
+    }
+    .table .item {
+      grid-template-columns: 1fr 60px;
+      gap: 12px;
+    }
+    .desc,
+    .stack {
+      display: none;
+    }
+    .exp {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  }
+</style>

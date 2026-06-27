@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1200px; height: 630px; }
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: #ffffff;
+        color: #111111;
+        padding: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+      }
+      .eyebrow {
+        color: #1a4dff;
+        font-weight: 600;
+        font-size: 22px;
+        letter-spacing: 0.05em;
+      }
+      h1 {
+        font-weight: 700;
+        font-size: 96px;
+        line-height: 1.04;
+        letter-spacing: -0.03em;
+        margin-top: 28px;
+      }
+      .name {
+        font-weight: 700;
+        font-size: 30px;
+        letter-spacing: -0.01em;
+      }
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-top: 1px solid #e3e3e3;
+        padding-top: 28px;
+      }
+      .meta .right {
+        color: #6f6f6f;
+        font-size: 22px;
+        font-weight: 500;
+      }
+      .domain { color: #1a4dff; font-weight: 600; }
+      .bar {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 10px;
+        background: #1a4dff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar"></div>
+    <div>
+      <div class="eyebrow">FULL-STACK DEVELOPER</div>
+      <h1>웹과 모바일을<br />만드는 개발자</h1>
+    </div>
+    <div class="meta">
+      <div class="name">손승범 · Son Seungbeom</div>
+      <div class="right"><span class="domain">asdfghjkkl.com</span></div>
+    </div>
+  </body>
+</html>
